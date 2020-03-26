@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Corona Detector</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="icon.js"></script>
+    <script src="app.js"></script>
+	
+</head>
+<body>
+   <div class="container-fluid">
+       <div class="row">
+           <div class="col-md-6">
+                <h2>Deteksi Korona Lingkungan Anda</h2>
+                <p> Last Update : <span id="last_update"></span></p>
+            
+                <p> Cara Penggunaan</p>
+                <ol>
+                    <li>Temukan Kabupaten</li>
+                    <li>Klik Map Untuk Lokasi Anda</li>
+                </ol>
+            
+            
+            
+               <div class="form-inline">
+                    <input 
+                    class="form-control"
+                    id='location'/ 
+                    placeholder="masukan kabupaten anda"/>
+                    <button class="btn btn-primary" onclick="findLocation()">
+                        Deteksi Lokasi Saya
+                    </button>
+               </div>
+            
+                <div class="text-center">
+                    <div id="your_location"></div>
+                </div>
+           </div>
+           <div class="col-md-6">
+           
+            <div class="canva">
+                <div id="mapid" style="width:100%; height: 700px;"></div>
+            </div>
+           </div>
+       </div>
+   </div> 
+</body>
+</html>
