@@ -4,6 +4,7 @@ const DEFAULT_LOCATION = {
     lng : 107.9163895
 }
 $(document).ready(function(){
+    $('#your_location').html(`<h3>Loading....</h3>`)
     $.get('https://covid19-public.digitalservice.id/analytics/longlat/',function(response){
         navigator.geolocation.getCurrentPosition((location)=>{
             let our_location = {
