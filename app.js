@@ -5,7 +5,9 @@ const DEFAULT_LOCATION = {
 }
 $(document).ready(function(){
     $('#your_location').html(`<h3>Loading....</h3>`)
-    $.get('https://covid19-public.digitalservice.id/analytics/longlat/',function(response){
+    $.get('https://covid19-public.digitalservice.id/analytics/longlat/',
+    function(response){
+        
         navigator.geolocation.getCurrentPosition((location)=>{
             let our_location = {
                 lat : location.coords.latitude,
@@ -15,9 +17,15 @@ $(document).ready(function(){
             localStorage.setItem('data',JSON.stringify(response))
             autodetect(our_location,response.data,'Kasus terdekat berdasar auto detect')
             map(response.data,our_location)
-        },()=>{
-            alert('Please reload')
-        },{enableHighAccuracy:true});
+        },(error)=>{
+            $('#your_location').html(`<h3> Device anda tidak mengizinkan / terjadi kesalahan.
+            <p> <a href="https://github.com/agitnaeta/covid19/issues/new" target="_top">
+            Laporkan Bug
+                </a></p>
+            </h3>`)
+        },{
+            enableHighAccuracy:true
+        });
 
     })
 })
