@@ -13,50 +13,54 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="icon.js"></script>
     <script src="app.js"></script>
+    <link rel="stylesheet" href="css.css"></script>
 	
 </head>
 <body>
-   <div class="container-fluid">
+   <div class="container">
        <div class="row">
-           <div class="col-md-6">
-                <h2>Deteksi Covid-19 Lingkungan Anda</h2>
-                <p> Last Update : <span id="last_update"></span></p>
-            
-                <p> Cara Penggunaan</p>
-                <ol>
-                    <li>Temukan Kabupaten</li>
-                    <li>Klik Map Untuk Lokasi Anda</li>
-                </ol>
-            
-            
-            
-               <div class="form-inline">
+           <div class="col-md-12 text-center">
+              <h3> Covid19-Detector</h3>
+           </div>
+       </div>
+       <div class="row">
+            <div class="col-md-6">
+                <div class="form-inline form-group">
                     <input 
-                    class="form-control"
-                    id='location'/ 
-                    placeholder="masukan kabupaten anda"/>
+                    class       = "form-control"
+                    id          = 'location'
+                    placeholder = "masukan kabupaten anda"/>
                     <button class="btn btn-primary" onclick="findLocation()">
-                        Deteksi Lokasi Saya
+                        Cari
                     </button>
-               </div>
-            
+                </div>
+                <div class="canva">
+                    <div id="mapid" class="main-maps" style="height:300px; width:100%"></div>
+                </div>
+            </div>
+           <div class="col-md-6 pad-header">
+             
                 <div class="text-center">
                     <div id="your_location"></div>
                 </div>
-
+                <p>
+                    <input type="checkbox" id="auto_update"/>
+                    <label for="auto_update">Jalankan Auto Update</label>
+                </p>
+                <hr>
                 <p>Info:</p>
                 <ul>
                     <li>Biru  = Orang Dalam Pengawasan</li>
                     <li>Orange  = Pasien Dalam Pengawasan</li>
                     <li>Merah  = Positif</li>
                 </ul>
+
+                <blockquote>
+                    <p> Sumber Informasi : <a href="http://pikobar.jabarprov.go.id/ ">http://pikobar.jabarprov.go.id/ </a></p>
+                    <p> Developer : <a href="https://twitter.com/NaetaAgit">@NaetaAgit</a></p>
+                </blockquote>
            </div>
-           <div class="col-md-6">
-           
-            <div class="canva">
-                <div id="mapid" style="width:100%; height: 700px;"></div>
-            </div>
-           </div>
+         
        </div>
    </div> 
 </body>

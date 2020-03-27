@@ -4,31 +4,37 @@ const DEFAULT_LOCATION = {
     lng : 107.9163895
 }
 $(document).ready(function(){
+    autoUpdate()    
     $('#your_location').html(`<h3>Loading....</h3>`)
     $.get('https://covid19-public.digitalservice.id/analytics/longlat/',
     function(response){
         
-        navigator.geolocation.getCurrentPosition((location)=>{
-            let our_location = {
-                lat : location.coords.latitude,
-                lng : location.coords.longitude
-            }
-            $('#last_update').html(response.last_update)
-            localStorage.setItem('data',JSON.stringify(response))
-            autodetect(our_location,response.data,'Kasus terdekat berdasar auto detect')
-            map(response.data,our_location)
-        },(error)=>{
-            $('#your_location').html(`<h3> Device anda tidak mengizinkan / terjadi kesalahan.
-            <p> <a href="https://github.com/agitnaeta/covid19/issues/new" target="_top">
-            Laporkan Bug
-                </a></p>
-            </h3>`)
-        },{
-            enableHighAccuracy:true
-        });
-
+       run(response)
+        
     })
 })
+
+function run(response){
+    navigator.geolocation.getCurrentPosition((location)=>{
+        let our_location = {
+            lat : location.coords.latitude,
+            lng : location.coords.longitude
+        }
+        $('#last_update').html(response.last_update)
+        localStorage.setItem('data',JSON.stringify(response))
+        autodetect(our_location,response.data,'Kasus terdekat berdasar auto detect')
+        map(response.data,our_location)
+        
+    },(error)=>{
+        $('#your_location').html(`<h3> Device anda tidak mengizinkan / terjadi kesalahan.
+        <p> <a href="https://github.com/agitnaeta/covid19/issues/new" target="_top">
+        Laporkan Bug
+            </a></p>
+        </h3>`)
+    },{
+        enableHighAccuracy:true
+    });
+}
 
 function map(data,loc){
     let mainMap = L.map('mapid').setView([loc.lat,loc.lng], 15);
@@ -43,10 +49,21 @@ function map(data,loc){
     }).addTo(mainMap);
 
     createMarker(data,mainMap)
+    createMiddleMarker(loc,mainMap)
+    background()
 	mainMap.on('click', detect);
     return mainMap
 }
 
+function createMiddleMarker(location,mainMap){
+    L.marker([
+        location.lat,
+        location.lng
+    ],{
+        icon : blackIcon
+    })
+    .addTo(mainMap);
+}
 function createMarker(data,mainMap){
     data.map((value,index)=>{   
        if(value.alamat_longitude!=null){
@@ -84,7 +101,7 @@ function findLocation(){
                 let jsonData = JSON.parse(localStorage.getItem('data')).data
 
                 await $('.canva').html('')
-                await $('.canva').html(`<div id="mapid" style="width:100%; height: 700px;"></div>`)
+                await $('.canva').html(`<div id="mapid" class='main-maps' style='height:300px;width:100%'></div>`)
                 await map(jsonData,location_search)
                 await autodetect(location_search,jsonData,'Kasus terdekat bedasar pusat kota')
                
@@ -142,4 +159,30 @@ function getDistanceBetweenPoints(center, target){
     let distance = R * c;
     return distance;
 }
-  
+
+function background(){
+    setTimeout(async ()=>{
+       if(localStorage.getItem('auto_update')==='1'){
+            let jsonData = JSON.parse(localStorage.getItem('data'))
+            await $('.canva').html(`<div id="mapid" class='main-maps' style='height:300px;width:100%'></div>`)
+            run(jsonData)
+       }
+       else{
+           background()
+           console.log('detect')
+       }
+    },3000)
+}
+
+function autoUpdate(){
+    $('#auto_update').click(function(){
+        if($(this).is(':checked')){
+            localStorage.setItem('auto_update',1)
+            $(this).prop('checked',true)
+        }
+        else{
+            localStorage.setItem('auto_update',0)
+            $(this).removeAttr('checked')
+        }
+    })
+}
